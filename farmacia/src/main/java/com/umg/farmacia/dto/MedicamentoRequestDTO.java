@@ -26,6 +26,6 @@ public class MedicamentoRequestDTO {
     private Integer stockMinimo;
 
     @NotNull(message = "La fecha de vencimiento es obligatoria")
-    @FutureOrPresent(message = "La fecha no puede ser en el pasado")
     private LocalDate fechaVencimiento;
 }
+

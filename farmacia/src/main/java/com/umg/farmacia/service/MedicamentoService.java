@@ -17,7 +17,7 @@ public class MedicamentoService {
     private MedicamentoRepository repo;
 
     public List<Medicamento> listarTodos() {
-        return repo.findAll();
+        return repo.findByActivoTrue();
     }
 
     public Medicamento obtenerPorId(Long id) {
@@ -74,5 +74,9 @@ public class MedicamentoService {
         return repo.findAll().stream()
                 .filter(m -> m.getStockActual() <= m.getStockMinimo())
                 .toList();
+    }
+
+    public java.math.BigDecimal obtenerValorInventario(){
+        return repo.calcularValorInventario();
     }
 }

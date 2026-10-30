@@ -49,4 +49,9 @@ public class MedicamentoController {
     public List<Medicamento> stockBajo() {
         return service.buscarStockBajo();
     }
+
+    @GetMapping("inventario/valor")
+    public java.math.BigDecimal valorInventario() {
+        return service.obtenerValorInventario();
+    }
 }

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Farmacia - Inventario</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Inventario de Farmacia PF-05</h1>
+      <div id="indicador">Valor del Inventario: Cargando...</div>
+    </header>
+
+    <main>
+      <section class="formulario">
+        <h2>Registrar Movimiento</h2>
+        <form id="formMovimiento">
+          <input
+            type="number"
+            id="medicamentoId"
+            placeholder="ID del Medicamento"
+            required
+          />
+          <select id="tipoMovimiento" required>
+            <option value="ENTRADA">ENTRADA</option>
+            <option value="SALIDA">SALIDA</option>
+          </select>
+          <input
+            type="number"
+            id="cantidad"
+            placeholder="Cantidad"
+            required
+            min="1"
+          />
+          <input type="text" id="motivo" placeholder="Motivo (opcional)" />
+          <button type="submit">Registrar</button>
+        </form>
+        <div id="mensaje"></div>
+      </section>
+
+      <section class="tabla">
+        <h2>Medicamentos Activos</h2>
+        <button onclick="cargarMedicamentos()">Recargar Lista</button>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Stock</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody id="tablaMedicamentos"></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

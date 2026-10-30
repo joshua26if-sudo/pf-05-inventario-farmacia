@@ -43,4 +43,20 @@ public class GlobalExceptionHandler {
         response.put("detalles", errores);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> handleJsonError(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Formato de datos inválido");
+        response.put("mensaje", "El JSON enviado tiene un error o contiene valores no permitidos.");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleIntegrity(org.springframework.dao.DataIntegrityViolationException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Error de integridad");
+        response.put("mensaje", "No se puede realizar la operación porque el registro está en uso.");
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 }

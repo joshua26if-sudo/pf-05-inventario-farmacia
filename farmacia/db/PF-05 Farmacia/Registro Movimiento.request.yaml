@@ -1,0 +1,18 @@
+$kind: http-request
+url: http://localhost:8080/api/movimientos
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"medicamentoId\": 1,\r
+
+    \    \"tipo\": \"ENTRADA\",\r
+
+    \    \"cantidad\": 10,\r
+
+    \    \"motivo\": \"Compra de prueba\"\r
+
+    }"
+examples: .resources/Registro Movimiento.resources/examples
+order: 1000
