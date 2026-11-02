@@ -1,26 +1,55 @@
-# Programación-ii-2026
-Repositorio del curso Programación II - 2026
+# PF-05: Inventario Básico para Farmacia
 
-## Semana 2 - Calculadora de Edad
+**Estudiante:** Joshua Israel Flores Pérez
+**Carné:** 9941-25-9403
+**Repositorio:** https://github.com/joshua26if-sudo/pf-05-inventario-farmacia/tree/main/farmacia
 
-Puedes ver la actividad completa en la carpeta: [semana-02-variables-operadores](semana-02-variables-operadores)
+## Descripción del Proyecto
 
-## Semana 3 - Condiciones y Ciclos 
+Sistema web para administrar el inventario de una farmacia de barrio. Permite gestionar medicamentos, registrar entradas y salidas (actualizando el stock automáticamente), detectar productos con stock bajo, y calcular el valor total del inventario.
 
-puedes ver las actividad completa en la carpeta: [semana-03-condiciones-y-ciclos](semana-03-condiciones-y-ciclos)
+## Tecnologías
 
-## Semana 4 - Control de presupuesto semanal
+- Java 17+ / Spring Boot 3
+- PostgreSQL
+- Maven
+- HTML, CSS, JavaScript
 
-puedes ver las actividad completa en la carpeta: [semana-04-metodos-y-modularizacion](semana-04-metodos-y-modularizacion)
+## Requisitos del Entorno
 
-## Semana 5 - Programación Orientada a Objetos
+- JDK 17 o superior instalado.
+- PostgreSQL instalado y en ejecución.
+- Maven instalado.
+- IDE de preferencia (IntelliJ IDEA, Eclipse, etc.).
 
-puedes ver las actividad completa en la carpeta: [semana-05-programacion-orientada-a-objetos](semana-05-programacion-orientada-a-objetos)
+## Configuración de PostgreSQL
 
-## Semana 6 - Programación Orientada a Objetos Aplicado
+1. Crear una base de datos llamada `farmacia_db`.
+2. Ejecutar el script `db/schema.sql` para crear las tablas.
+3. Ejecutar el script `db/data.sql` para insertar los datos de prueba.
+4. Configurar la conexión en `src/main/resources/application.properties`.
+   _La contraseña debe manejarse con la variable de entorno `DB_PASSWORD`._
 
-puedes ver las actividad completa en la carpeta: [semana-06-poo-aplicado](semana-06-poo-aplicado)
+## Ejecución del Backend
 
-## Semana 7 - Programación Orientada a Objetos Aplicado
+1. Clonar el repositorio.
+2. Abrir la terminal en la carpeta raíz.
+3. Ejecutar: `mvn spring-boot:run`
+4. El servidor iniciará en `http://localhost:8080`.
 
-puedes ver las actividad completa en la carpeta: [semana-07-poo-aplicado](semana-07-poo-aplicado)
+## Ejecución del Frontend
+
+El frontend está integrado en Spring Boot (carpeta `static`). Una vez iniciado el backend, abrir en el navegador:
+`http://localhost:8080`
+
+## Endpoints Principales
+
+- `GET /api/medicamentos` : Lista todos los medicamentos activos.
+- `POST /api/medicamentos` : Crea un nuevo medicamento.
+- `PUT /api/medicamentos/{id}` : Actualiza un medicamento.
+- `DELETE /api/medicamentos/{id}` : Desactiva un medicamento.
+- `GET /api/medicamentos/categoria/{cat}` : Filtro por categoría (solo activos).
+- `GET /api/medicamentos/stock-bajo` : Filtro de stock bajo (solo activos).
+- `GET /api/medicamentos/inventario/valor` : Indicador del valor total.
+- `POST /api/movimientos` : Registrar entrada o salida.
+- `GET /api/movimientos/medicamento/{id}` : Historial de movimientos.

@@ -2,60 +2,102 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Farmacia - Inventario</title>
+    <title>Farmacia PF-05</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
-      <h1>Inventario de Farmacia PF-05</h1>
+      <h1>Inventario Farmacia PF-05</h1>
       <div id="indicador">Valor del Inventario: Cargando...</div>
     </header>
 
     <main>
-      <section class="formulario">
-        <h2>Registrar Movimiento</h2>
-        <form id="formMovimiento">
+      <section class="panel">
+        <h2>Gestión de Medicamentos</h2>
+        <form id="formMedicamento">
+          <input type="hidden" id="medId" />
+          <!-- Para saber si edito o creo -->
           <input
-            type="number"
-            id="medicamentoId"
-            placeholder="ID del Medicamento"
+            type="text"
+            id="medCodigo"
+            placeholder="Código (Ej. MED011)"
             required
           />
-          <select id="tipoMovimiento" required>
+          <input type="text" id="medNombre" placeholder="Nombre" required />
+          <input
+            type="text"
+            id="medCategoria"
+            placeholder="Categoría"
+            required
+          />
+          <input
+            type="number"
+            step="0.01"
+            id="medPrecio"
+            placeholder="Precio (Q)"
+            required
+          />
+          <input
+            type="number"
+            id="medStockMin"
+            placeholder="Stock Mínimo"
+            required
+          />
+          <input type="date" id="medFecha" required />
+          <button type="submit" id="btnGuardarMed">Guardar Medicamento</button>
+          <button
+            type="button"
+            id="btnCancelarEdicion"
+            style="display: none"
+            onclick="limpiarFormularioMedicamento()"
+          >
+            Cancelar Edición
+          </button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Registrar Movimiento</h2>
+        <form id="formMovimiento">
+          <select id="movMedicamentoId" required>
+            <option value="">Seleccione un medicamento...</option>
+          </select>
+          <select id="movTipo" required>
             <option value="ENTRADA">ENTRADA</option>
             <option value="SALIDA">SALIDA</option>
           </select>
           <input
             type="number"
-            id="cantidad"
+            id="movCantidad"
             placeholder="Cantidad"
             required
             min="1"
           />
-          <input type="text" id="motivo" placeholder="Motivo (opcional)" />
-          <button type="submit">Registrar</button>
+          <input type="text" id="movMotivo" placeholder="Motivo (opcional)" />
+          <button type="submit">Registrar Movimiento</button>
         </form>
-        <div id="mensaje"></div>
-      </section>
-
-      <section class="tabla">
-        <h2>Medicamentos Activos</h2>
-        <button onclick="cargarMedicamentos()">Recargar Lista</button>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Código</th>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Stock</th>
-              <th>Precio</th>
-            </tr>
-          </thead>
-          <tbody id="tablaMedicamentos"></tbody>
-        </table>
       </section>
     </main>
+
+    <section class="panel tabla-panel">
+      <h2>Medicamentos Activos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaMedicamentos"></tbody>
+      </table>
+    </section>
+
+    <div id="mensaje"></div>
     <script src="app.js"></script>
   </body>
 </html>

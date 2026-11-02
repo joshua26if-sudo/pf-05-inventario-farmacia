@@ -9,3 +9,9 @@ INSERT INTO medicamento (codigo, nombre, categoria, precio_unitario, stock_actua
 ('MED008','Enalapril 10mg','Cardiovascular',2.90,5,15,'2026-09-25',TRUE),
 ('MED009','Diclofenaco gel','Antiinflamatorio',8.50,25,8,'2026-12-01',TRUE),
 ('MED010','Vitamina C 500mg','Vitaminas',1.20,200,30,'2027-06-30',TRUE);
+
+INSERT INTO movimiento_inventario (medicamento_id, tipo, cantidad, fecha, motivo, stock_resultante) VALUES
+(1, 'ENTRADA', 100, '2026-10-01 09:00:00', 'Compra inicial', 100),
+(2, 'ENTRADA', 50, '2026-10-02 10:00:00', 'Compra inicial', 50),
+(3, 'ENTRADA', 20, '2026-10-03 11:00:00', 'Compra inicial', 20),
+(3, 'SALIDA', 12, '2026-10-04 12:00:00', 'Venta', 8);

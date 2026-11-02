@@ -67,12 +67,12 @@ public class MedicamentoService {
     }
 
     public List<Medicamento> buscarPorCategoria(String categoria) {
-        return repo.findByCategoriaIgnoreCase(categoria);
+        return repo.findByActivoTrueAndCategoriaIgnoreCase(categoria);
     }
 
     public List<Medicamento> buscarStockBajo() {
         return repo.findAll().stream()
-                .filter(m -> m.getStockActual() <= m.getStockMinimo())
+                .filter(m -> m.getActivo() && m.getStockActual() <= m.getStockMinimo())
                 .toList();
     }
 
