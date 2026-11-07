@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://localhost:8080/api/medicamentos
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"codigo\": \"\",\r
+
+    \    \"nombre\": \"Medicamento Error\",\r
+
+    \    \"categoria\": \"Pruebas\",\r
+
+    \    \"precioUnitario\": -5.00,\r
+
+    \    \"stockMinimo\": -10,\r
+
+    \    \"fechaVencimiento\": \"2027-12-31\"\r
+
+    }"
+order: 10000

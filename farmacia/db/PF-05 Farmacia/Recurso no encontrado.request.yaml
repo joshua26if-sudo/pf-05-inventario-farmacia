@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:8080/api/medicamentos/999
+method: GET
+order: 9000

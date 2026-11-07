@@ -2,7 +2,8 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Farmacia PF-05</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmacia PF-05 - Inventario</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -13,41 +14,54 @@
 
     <main>
       <section class="panel">
-        <h2>Gestión de Medicamentos</h2>
+        <h2 id="tituloFormMed">Gestión de Medicamentos</h2>
         <form id="formMedicamento">
           <input type="hidden" id="medId" />
-          <!-- Para saber si edito o creo -->
-          <input
-            type="text"
-            id="medCodigo"
-            placeholder="Código (Ej. MED011)"
-            required
-          />
-          <input type="text" id="medNombre" placeholder="Nombre" required />
+          <div class="input-group">
+            <input
+              type="text"
+              id="medCodigo"
+              placeholder="Código (Ej. MED011)"
+              required
+              minlength="3"
+            />
+            <input type="text" id="medNombre" placeholder="Nombre" required />
+          </div>
           <input
             type="text"
             id="medCategoria"
             placeholder="Categoría"
             required
           />
-          <input
-            type="number"
-            step="0.01"
-            id="medPrecio"
-            placeholder="Precio (Q)"
-            required
-          />
-          <input
-            type="number"
-            id="medStockMin"
-            placeholder="Stock Mínimo"
-            required
-          />
+          <div class="input-group">
+            <input
+              type="number"
+              step="0.01"
+              id="medPrecio"
+              placeholder="Precio (Q)"
+              required
+              min="0.01"
+            />
+            <input
+              type="number"
+              id="medStockMin"
+              placeholder="Stock Mínimo"
+              required
+              min="0"
+            />
+          </div>
+          <label class="label-fecha"
+            >Fecha de Vencimiento (Se permiten vencidos para control):</label
+          >
           <input type="date" id="medFecha" required />
-          <button type="submit" id="btnGuardarMed">Guardar Medicamento</button>
+
+          <button type="submit" id="btnGuardarMed" class="btn-primary">
+            Guardar Medicamento
+          </button>
           <button
             type="button"
             id="btnCancelarEdicion"
+            class="btn-warning"
             style="display: none"
             onclick="limpiarFormularioMedicamento()"
           >
@@ -59,42 +73,50 @@
       <section class="panel">
         <h2>Registrar Movimiento</h2>
         <form id="formMovimiento">
+          <label class="label-campo">Seleccione un medicamento:</label>
           <select id="movMedicamentoId" required>
-            <option value="">Seleccione un medicamento...</option>
+            <option value="">Cargando...</option>
           </select>
-          <select id="movTipo" required>
-            <option value="ENTRADA">ENTRADA</option>
-            <option value="SALIDA">SALIDA</option>
-          </select>
-          <input
-            type="number"
-            id="movCantidad"
-            placeholder="Cantidad"
-            required
-            min="1"
-          />
+          <div class="input-group">
+            <select id="movTipo" required>
+              <option value="ENTRADA">ENTRADA</option>
+              <option value="SALIDA">SALIDA</option>
+            </select>
+            <input
+              type="number"
+              id="movCantidad"
+              placeholder="Cantidad"
+              required
+              min="1"
+            />
+          </div>
           <input type="text" id="movMotivo" placeholder="Motivo (opcional)" />
-          <button type="submit">Registrar Movimiento</button>
+          <button type="submit" class="btn-primary">
+            Registrar Movimiento
+          </button>
         </form>
       </section>
     </main>
 
     <section class="panel tabla-panel">
       <h2>Medicamentos Activos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Stock</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="tablaMedicamentos"></tbody>
-      </table>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Stock</th>
+              <th>Precio</th>
+              <th>Vencimiento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaMedicamentos"></tbody>
+        </table>
+      </div>
     </section>
 
     <div id="mensaje"></div>

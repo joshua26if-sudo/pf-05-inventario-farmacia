@@ -28,6 +28,11 @@ public class MovimientoService {
 
     @Transactional
     public MovimientoResponseDTO registrarMovimiento(MovimientoRequestDTO dto) {
+
+        if (dto.getCantidad() == null || dto.getCantidad() <= 0) {
+            throw new BusinessException("La cantidad del movimiento debe ser mayor a cero.");
+        }
+
         Medicamento med = medicamentoRepo.findById(dto.getMedicamentoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Medicamento no encontrado con ID: " + dto.getMedicamentoId()));
 

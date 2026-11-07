@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://localhost:8080/api/medicamentos/12
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"codigo\": \"MED011\",\r
+
+    \    \"nombre\": \"Vitamina C 1000mg Efervescente\",\r
+
+    \    \"categoria\": \"Vitaminas\",\r
+
+    \    \"precioUnitario\": 5.00,\r
+
+    \    \"stockMinimo\": 15,\r
+
+    \    \"fechaVencimiento\": \"2027-12-31\"\r
+
+    }"
+order: 6000

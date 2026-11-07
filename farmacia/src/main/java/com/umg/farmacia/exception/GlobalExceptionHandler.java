@@ -6,6 +6,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,19 +46,27 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, Object>> handleJsonError(org.springframework.http.converter.HttpMessageNotReadableException ex) {
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, Object>> handleJsonError(HttpMessageNotReadableException ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put("error", "Formato de datos inválido");
-        response.put("mensaje", "El JSON enviado tiene un error o contiene valores no permitidos.");
+        response.put("error", "Formato de JSON inválido");
+        response.put("mensaje", "El cuerpo de la solicitud está mal formado o contiene tipos de datos incorrectos.");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String, Object>> handleIntegrity(org.springframework.dao.DataIntegrityViolationException ex) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleDataIntegrity(DataIntegrityViolationException ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put("error", "Error de integridad");
-        response.put("mensaje", "No se puede realizar la operación porque el registro está en uso.");
+        response.put("error", "Error de integridad de datos");
+        response.put("mensaje", "No se puede completar la operación porque el registro está siendo utilizado o viola una restricción de la base de datos.");
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("error", "Error interno del servidor");
+        response.put("mensaje", "Ha ocurrido un error inesperado. Por favor, contacte al administrador.");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

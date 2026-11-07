@@ -37,7 +37,7 @@ public class MedicamentoService {
         med.setPrecioUnitario(dto.getPrecioUnitario());
         med.setStockMinimo(dto.getStockMinimo());
         med.setFechaVencimiento(dto.getFechaVencimiento());
-        med.setStockActual(0);
+        med.setStockActual(dto.getStockActual() != null ? dto.getStockActual() : 0);
         med.setActivo(true);
 
         return repo.save(med);
@@ -56,6 +56,9 @@ public class MedicamentoService {
         med.setPrecioUnitario(dto.getPrecioUnitario());
         med.setStockMinimo(dto.getStockMinimo());
         med.setFechaVencimiento(dto.getFechaVencimiento());
+        if (dto.getStockActual() != null) {
+            med.setStockActual(dto.getStockActual());
+        }
 
         return repo.save(med);
     }

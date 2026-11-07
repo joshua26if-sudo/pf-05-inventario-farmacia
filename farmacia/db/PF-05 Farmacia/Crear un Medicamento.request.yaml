@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://localhost:8080/api/medicamentos
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"codigo\": \"MED011\",\r
+
+    \    \"nombre\": \"Vitamina C 1000mg\",\r
+
+    \    \"categoria\": \"Vitaminas\",\r
+
+    \    \"precioUnitario\": 4.50,\r
+
+    \    \"stockMinimo\": 10,\r
+
+    \    \"fechaVencimiento\": \"2027-12-31\"\r
+
+    }"
+order: 5000

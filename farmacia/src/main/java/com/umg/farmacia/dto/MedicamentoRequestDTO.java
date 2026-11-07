@@ -25,6 +25,9 @@ public class MedicamentoRequestDTO {
     @Min(value = 0, message = "El stock mínimo no puede ser negativo")
     private Integer stockMinimo;
 
+    @Min(value = 0, message = "El stock actual no puede ser negativo")
+    private Integer stockActual;
+
     @NotNull(message = "La fecha de vencimiento es obligatoria")
     private LocalDate fechaVencimiento;
 }

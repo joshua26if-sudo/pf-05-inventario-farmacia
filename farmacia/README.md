@@ -53,3 +53,7 @@ El frontend está integrado en Spring Boot (carpeta `static`). Una vez iniciado 
 - `GET /api/medicamentos/inventario/valor` : Indicador del valor total.
 - `POST /api/movimientos` : Registrar entrada o salida.
 - `GET /api/movimientos/medicamento/{id}` : Historial de movimientos.
+
+## Colección de Postman
+
+En la carpeta `/db` se encuentra el archivo JSON con todas las peticiones HTTP exportadas para probar la API.

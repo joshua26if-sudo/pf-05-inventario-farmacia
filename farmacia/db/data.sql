@@ -14,4 +14,9 @@ INSERT INTO movimiento_inventario (medicamento_id, tipo, cantidad, fecha, motivo
 (1, 'ENTRADA', 100, '2026-10-01 09:00:00', 'Compra inicial', 100),
 (2, 'ENTRADA', 50, '2026-10-02 10:00:00', 'Compra inicial', 50),
 (3, 'ENTRADA', 20, '2026-10-03 11:00:00', 'Compra inicial', 20),
-(3, 'SALIDA', 12, '2026-10-04 12:00:00', 'Venta', 8);
+(3, 'SALIDA', 12, '2026-10-04 12:00:00', 'Venta', 8)
+(1, 'ENTRADA', 100, '2026-10-01 09:00:00', 'Compra inicial a proveedor', 100),
+(2, 'ENTRADA', 50, '2026-10-02 10:30:00', 'Compra inicial a proveedor', 50),
+(3, 'ENTRADA', 20, '2026-10-03 11:00:00', 'Compra inicial', 20),
+(3, 'SALIDA', 12, '2026-10-05 14:15:00', 'Venta al público', 8),
+(8, 'ENTRADA', 5, '2026-10-06 08:00:00', 'Reposición de stock', 5);

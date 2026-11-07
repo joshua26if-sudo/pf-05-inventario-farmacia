@@ -1,5 +1,4 @@
 const API_URL = "/api";
-let listaMedicamentos = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarMedicamentos();
@@ -9,32 +8,51 @@ document.addEventListener("DOMContentLoaded", () => {
 async function cargarMedicamentos() {
   try {
     const res = await fetch(`${API_URL}/medicamentos`);
-    listaMedicamentos = await res.json();
+    const listaMedicamentos = await res.json();
 
     const tbody = document.getElementById("tablaMedicamentos");
     const selectMov = document.getElementById("movMedicamentoId");
 
-    tbody.innerHTML = "";
-    selectMov.innerHTML =
-      '<option value="">Seleccione un medicamento...</option>';
+    tbody.replaceChildren();
+    selectMov.replaceChildren();
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Seleccione un medicamento...";
+    selectMov.appendChild(defaultOption);
 
     listaMedicamentos.forEach((m) => {
       const tr = document.createElement("tr");
 
-      const tdId = document.createElement("td");
-      tdId.textContent = m.id;
-      const tdCodigo = document.createElement("td");
-      tdCodigo.textContent = m.codigo;
-      const tdNombre = document.createElement("td");
-      tdNombre.textContent = m.nombre;
-      const tdCat = document.createElement("td");
-      tdCat.textContent = m.categoria;
+      const campos = [m.id, m.codigo, m.nombre, m.categoria];
+      campos.forEach((valor) => {
+        const td = document.createElement("td");
+        td.textContent = valor;
+        tr.appendChild(td);
+      });
+
       const tdStock = document.createElement("td");
-      tdStock.innerHTML = `<b>${m.stockActual}</b>`;
+      const strongStock = document.createElement("strong");
+      strongStock.textContent = m.stockActual;
+
+      if (m.stockActual <= m.stockMinimo) {
+        strongStock.style.color = "#ef4444";
+      } else {
+        strongStock.style.color = "#10b981";
+      }
+      tdStock.appendChild(strongStock);
+      tr.appendChild(tdStock);
+
       const tdPrecio = document.createElement("td");
       tdPrecio.textContent = `Q${m.precioUnitario.toFixed(2)}`;
+      tr.appendChild(tdPrecio);
+
+      const tdFecha = document.createElement("td");
+      tdFecha.textContent = m.fechaVencimiento;
+      tr.appendChild(tdFecha);
 
       const tdAcciones = document.createElement("td");
+
       const btnEdit = document.createElement("button");
       btnEdit.textContent = "Editar";
       btnEdit.className = "btn-editar";
@@ -47,19 +65,13 @@ async function cargarMedicamentos() {
 
       tdAcciones.appendChild(btnEdit);
       tdAcciones.appendChild(btnDel);
-
-      tr.appendChild(tdId);
-      tr.appendChild(tdCodigo);
-      tr.appendChild(tdNombre);
-      tr.appendChild(tdCat);
-      tr.appendChild(tdStock);
-      tr.appendChild(tdPrecio);
       tr.appendChild(tdAcciones);
+
       tbody.appendChild(tr);
 
       const option = document.createElement("option");
       option.value = m.id;
-      option.textContent = `${m.nombre} (Stock: ${m.stockActual})`;
+      option.textContent = `${m.nombre} (Stock actual: ${m.stockActual})`;
       selectMov.appendChild(option);
     });
   } catch (error) {
@@ -84,10 +96,11 @@ document
   .addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = document.getElementById("medId").value;
+
     const body = {
-      codigo: document.getElementById("medCodigo").value,
-      nombre: document.getElementById("medNombre").value,
-      categoria: document.getElementById("medCategoria").value,
+      codigo: document.getElementById("medCodigo").value.trim(),
+      nombre: document.getElementById("medNombre").value.trim(),
+      categoria: document.getElementById("medCategoria").value.trim(),
       precioUnitario: parseFloat(document.getElementById("medPrecio").value),
       stockMinimo: parseInt(document.getElementById("medStockMin").value),
       fechaVencimiento: document.getElementById("medFecha").value,
@@ -108,7 +121,9 @@ document
 
       if (res.ok) {
         mostrarMensaje(
-          id ? "Medicamento actualizado" : "Medicamento creado",
+          id
+            ? "Medicamento actualizado con éxito"
+            : "Medicamento creado con éxito",
           "success",
         );
         limpiarFormularioMedicamento();
@@ -116,16 +131,17 @@ document
         cargarIndicador();
       } else {
         mostrarMensaje(
-          data.mensaje || data.error || "Error al guardar",
+          data.mensaje || data.error || "Error al guardar el medicamento",
           "error",
         );
       }
     } catch (error) {
-      mostrarMensaje("Error de conexión", "error");
+      mostrarMensaje("Error de conexión con el servidor", "error");
     }
   });
 
 function prepararEdicion(m) {
+  document.getElementById("tituloFormMed").textContent = "Editando Medicamento";
   document.getElementById("medId").value = m.id;
   document.getElementById("medCodigo").value = m.codigo;
   document.getElementById("medNombre").value = m.nombre;
@@ -134,34 +150,40 @@ function prepararEdicion(m) {
   document.getElementById("medStockMin").value = m.stockMinimo;
   document.getElementById("medFecha").value = m.fechaVencimiento;
 
-  document.getElementById("btnGuardarMed").textContent =
-    "Actualizar Medicamento";
+  document.getElementById("btnGuardarMed").textContent = "Actualizar Cambios";
   document.getElementById("btnCancelarEdicion").style.display = "block";
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function limpiarFormularioMedicamento() {
   document.getElementById("formMedicamento").reset();
   document.getElementById("medId").value = "";
+  document.getElementById("tituloFormMed").textContent =
+    "Gestión de Medicamentos";
   document.getElementById("btnGuardarMed").textContent = "Guardar Medicamento";
   document.getElementById("btnCancelarEdicion").style.display = "none";
 }
 
 async function desactivarMedicamento(id) {
-  if (!confirm("¿Está seguro de desactivar este medicamento?")) return;
+  if (
+    !confirm(
+      "¿Está seguro de desactivar este medicamento? No aparecerá en el listado.",
+    )
+  )
+    return;
   try {
     const res = await fetch(`${API_URL}/medicamentos/${id}`, {
       method: "DELETE",
     });
     if (res.ok) {
-      mostrarMensaje("Medicamento desactivado", "success");
+      mostrarMensaje("Medicamento desactivado correctamente", "success");
       cargarMedicamentos();
       cargarIndicador();
     } else {
-      mostrarMensaje("No se pudo desactivar", "error");
+      mostrarMensaje("No se pudo desactivar el medicamento", "error");
     }
   } catch (error) {
-    mostrarMensaje("Error de conexión", "error");
+    mostrarMensaje("Error de conexión con el servidor", "error");
   }
 }
 
@@ -169,13 +191,18 @@ document
   .getElementById("formMovimiento")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    const medId = document.getElementById("movMedicamentoId").value;
+    if (!medId) {
+      mostrarMensaje("Por favor, seleccione un medicamento válido", "error");
+      return;
+    }
+
     const body = {
-      medicamentoId: parseInt(
-        document.getElementById("movMedicamentoId").value,
-      ),
+      medicamentoId: parseInt(medId),
       tipo: document.getElementById("movTipo").value,
       cantidad: parseInt(document.getElementById("movCantidad").value),
-      motivo: document.getElementById("movMotivo").value,
+      motivo: document.getElementById("movMotivo").value.trim(),
     };
 
     try {
@@ -188,7 +215,7 @@ document
 
       if (res.ok) {
         mostrarMensaje(
-          `Movimiento registrado. Nuevo stock: ${data.stockResultante}`,
+          `Movimiento exitoso. Nuevo stock de ${data.medicamentoNombre}: ${data.stockResultante}`,
           "success",
         );
         document.getElementById("formMovimiento").reset();
@@ -201,7 +228,7 @@ document
         );
       }
     } catch (error) {
-      mostrarMensaje("Error de conexión", "error");
+      mostrarMensaje("Error de conexión con el servidor", "error");
     }
   });
 
@@ -209,6 +236,7 @@ function mostrarMensaje(texto, tipo) {
   const div = document.getElementById("mensaje");
   div.textContent = texto;
   div.className = tipo;
+
   setTimeout(() => {
     div.className = "";
     div.textContent = "";
